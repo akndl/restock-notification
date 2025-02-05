@@ -4,10 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>再入荷通知登録</title>
+    <script type="module">
+        // Firebase の設定をここに追加
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNamYKrlK0Wf6kPvYrUL1Iga_Rsj6ckGY",
+            authDomain: "restock-notifier-3f58e.firebaseapp.com",
+            projectId: "restock-notifier-3f58e",
+            storageBucket: "restock-notifier-3f58e.firebasestorage.app",
+            messagingSenderId: "260373859008",
+            appId: "1:260373859008:web:a0bf946ac257c3322afb25"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        async function submitForm(event) {
+            event.preventDefault();
+            const productUrl = document.getElementById("productUrl").value;
+            const email = document.getElementById("email").value;
+            
+            try {
+                await addDoc(collection(db, "registrations"), {
+                    productUrl: productUrl,
+                    email: email
+                });
+                alert("登録が完了しました！");
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("登録に失敗しました。");
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>再入荷通知の登録</h1>
-    <form>
+    <form onsubmit="submitForm(event)">
         <label for="productUrl">商品URL:</label>
         <input type="url" id="productUrl" name="productUrl" required><br><br>
 
