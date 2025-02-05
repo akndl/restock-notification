@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>再入荷通知の登録</h1>
-    <form onsubmit="submitForm(event)">
+    <form>
         <label for="productUrl">商品URL:</label>
         <input type="url" id="productUrl" name="productUrl" required><br><br>
 
@@ -22,27 +22,27 @@
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyCNamYKrlK0Wf6kPvYrUL1Iga_Rsj6ckGY",
+            authDomain: "restock-notifier-3f58e.firebaseapp.com",
+            projectId: "restock-notifier-3f58e",
+            storageBucket: "restock-notifier-3f58e.firebasestorage.app",
+            messagingSenderId: "260373859008",
+            appId: "1:260373859008:web:a0bf946ac257c3322afb25"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        console.log("Firestore が正常に初期化されました");
+        console.log("✅ Firestore が正常に初期化されました", db);
 
-        // ✅ ここでグローバルスコープに `window.submitForm` として関数を登録
-        window.submitForm = async function(event) {
+        // フォーム送信処理
+        async function submitForm(event) {
             event.preventDefault();
             console.log("✅ submitForm() が実行されました");
 
             const productUrl = document.getElementById("productUrl").value;
             const email = document.getElementById("email").value;
 
-            console.log("📌 入力されたデータ:", { productUrl, email });
+            console.log("📌 入力データ:", { productUrl, email });
 
             try {
                 console.log("🔄 Firestore への登録を開始します...");
@@ -56,7 +56,12 @@
                 console.error("❌ Firestore への登録エラー: ", error);
                 alert("登録に失敗しました。");
             }
-        };
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector("form").addEventListener("submit", submitForm);
+        });
+
     </script>
 </body>
 </html>
