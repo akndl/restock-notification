@@ -31,10 +31,11 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(app, { databaseId: "registrations" });
         console.log("✅ Firestore が正常に初期化されました", db);
 
         // フォーム送信処理
+
         async function submitForm(event) {
             event.preventDefault();
             console.log("✅ submitForm() が実行されました");
@@ -46,11 +47,15 @@
 
             try {
                 console.log("🔄 Firestore への登録を開始します...");
-                await addDoc(collection(db, "registrations"), {
+
+                // `collection(db, "registrations")` の書き方をチェック
+                const docRef = await addDoc(collection(db, "registrations"), {
                     productUrl: productUrl,
-                    email: email
+                    email: email,
+                    timestamp: new Date() // タイムスタンプを追加してみる
                 });
-                console.log("✅ Firestore への登録が成功しました！");
+
+                console.log("✅ Firestore への登録が成功しました！ID: ", docRef.id);
                 alert("登録が完了しました！");
             } catch (error) {
                 console.error("❌ Firestore への登録エラー: ", error);
