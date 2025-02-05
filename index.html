@@ -24,12 +24,12 @@
         
         async function submitForm(event) {
             event.preventDefault();
-            console.log("✅ フォーム送信が開始されました"); // デバッグ用ログ
+            console.log("✅ submitForm() が実行されました"); // ← これが Console に表示されるか確認！
         
             const productUrl = document.getElementById("productUrl").value;
             const email = document.getElementById("email").value;
-            
-            console.log("📌 入力されたデータ:", { productUrl, email }); // デバッグ用ログ
+        
+            console.log("📌 入力されたデータ:", { productUrl, email });
         
             try {
                 console.log("🔄 Firestore への登録を開始します...");
@@ -37,13 +37,14 @@
                     productUrl: productUrl,
                     email: email
                 });
-                console.log("✅ Firestore への登録が成功しました！"); // Firestore登録成功ログ
+                console.log("✅ Firestore への登録が成功しました！");
                 alert("登録が完了しました！");
             } catch (error) {
                 console.error("❌ Firestore への登録エラー: ", error);
                 alert("登録に失敗しました。");
             }
         }
+
     </script>
 </head>
 <body>
