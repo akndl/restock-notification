@@ -24,17 +24,23 @@
         
         async function submitForm(event) {
             event.preventDefault();
+            console.log("✅ フォーム送信が開始されました"); // デバッグ用ログ
+        
             const productUrl = document.getElementById("productUrl").value;
             const email = document.getElementById("email").value;
             
+            console.log("📌 入力されたデータ:", { productUrl, email }); // デバッグ用ログ
+        
             try {
+                console.log("🔄 Firestore への登録を開始します...");
                 await addDoc(collection(db, "registrations"), {
                     productUrl: productUrl,
                     email: email
                 });
+                console.log("✅ Firestore への登録が成功しました！"); // Firestore登録成功ログ
                 alert("登録が完了しました！");
             } catch (error) {
-                console.error("Error adding document: ", error);
+                console.error("❌ Firestore への登録エラー: ", error);
                 alert("登録に失敗しました。");
             }
         }
